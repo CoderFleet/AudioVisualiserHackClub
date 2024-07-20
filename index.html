@@ -6,62 +6,7 @@
     <title>Cool Audio Visualizer</title>
     <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <style>
-        body {
-            font-family: 'Roboto', sans-serif;
-            margin: 0;
-            padding: 0;
-            background: #000;
-            color: #fff;
-            text-align: center;
-        }
-        .wrapper {
-            display: inline-block;
-            padding: 20px;
-            border-radius: 10px;
-            background: rgba(0, 0, 0, 0.8);
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
-        }
-        h1 {
-            font-family: 'Press Start 2P', cursive;
-            font-size: 2.5em;
-            margin-bottom: 20px;
-        }
-        input[type="file"] {
-            margin: 10px 0;
-        }
-        select, input[type="range"] {
-            margin: 10px;
-            padding: 10px;
-            border: none;
-            border-radius: 5px;
-            background: #333;
-            color: #fff;
-            font-size: 1em;
-        }
-        .controls {
-            margin: 20px 0;
-        }
-        .controls button {
-            margin: 0 10px;
-            font-size: 2em;
-            background: none;
-            border: none;
-            cursor: pointer;
-            color: #fff;
-        }
-        .controls input[type="range"] {
-            margin: 0 10px;
-            width: 150px;
-        }
-        #audioCanvas, #waveformCanvas {
-            border: 1px solid #555;
-            margin-top: 20px;
-        }
-        #waveformCanvas {
-            height: 100px;
-        }
-    </style>
+    <link rel="stylesheet" href="styles/style.css">
 </head>
 <body class="theme-dark">
     <div class="wrapper">
@@ -84,6 +29,14 @@
             </select>
         </div>
         <div>
+            <label for="bassToggle">Bass Boost:</label>
+            <input type="checkbox" id="bassToggle">
+        </div>
+        <div id="bassControls" style="display: none;">
+            <label for="bassBoostSlider">Bass Boost Level:</label>
+            <input type="range" id="bassBoostSlider" min="0" max="10" value="5">
+        </div>
+        <div>
             <label for="sensitivitySlider">Sensitivity:</label>
             <input type="range" id="sensitivitySlider" min="1" max="10" value="5">
         </div>
@@ -92,6 +45,10 @@
             <label for="volumeSlider">Volume:</label>
             <input type="range" id="volumeSlider" min="0" max="1" step="0.01" value="0.5">
         </div>
+        <div class="time-display">
+            <span id="currentTime">00:00</span> / <span id="duration">00:00</span>
+        </div>
+        <input type="range" id="seekSlider" min="0" max="100" value="0">
         <canvas id="audioCanvas"></canvas>
         <canvas id="waveformCanvas"></canvas>
     </div>

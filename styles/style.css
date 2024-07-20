@@ -6,7 +6,6 @@ body {
     color: #fff;
     text-align: center;
 }
-
 .wrapper {
     display: inline-block;
     padding: 20px;
@@ -14,17 +13,14 @@ body {
     background: rgba(0, 0, 0, 0.8);
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
 }
-
 h1 {
     font-family: 'Press Start 2P', cursive;
     font-size: 2.5em;
     margin-bottom: 20px;
 }
-
 input[type="file"] {
     margin: 10px 0;
 }
-
 select, input[type="range"] {
     margin: 10px;
     padding: 10px;
@@ -34,11 +30,9 @@ select, input[type="range"] {
     color: #fff;
     font-size: 1em;
 }
-
 .controls {
     margin: 20px 0;
 }
-
 .controls button {
     margin: 0 10px;
     font-size: 2em;
@@ -47,13 +41,24 @@ select, input[type="range"] {
     cursor: pointer;
     color: #fff;
 }
-
 .controls input[type="range"] {
     margin: 0 10px;
     width: 150px;
 }
-
-#audioCanvas {
+#audioCanvas, #waveformCanvas {
     border: 1px solid #555;
     margin-top: 20px;
+}
+#waveformCanvas {
+    height: 100px;
+}
+.time-display {
+    margin: 20px 0;
+}
+.time-display span {
+    font-size: 1.2em;
+}
+#seekSlider {
+    width: 80%;
+    margin: 10px 0;
 }
