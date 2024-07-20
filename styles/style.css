@@ -6,7 +6,11 @@ body {
     margin: 0;
     background-color: #1e1e1e;
     color: #ffffff;
-    font-family: 'Arial', sans-serif;
+    font-family: 'Roboto', sans-serif;
+}
+
+h1 {
+    font-family: 'Press Start 2P', cursive;
 }
 
 .wrapper {
@@ -17,4 +21,20 @@ canvas {
     display: block;
     margin: 20px auto;
     border: 1px solid #ffffff;
+}
+
+/* Theme Styles */
+.theme-light {
+    background-color: #ffffff;
+    color: #000000;
+}
+
+.theme-dark {
+    background-color: #1e1e1e;
+    color: #ffffff;
+}
+
+.theme-blue {
+    background-color: #001f3f;
+    color: #ffffff;
 }

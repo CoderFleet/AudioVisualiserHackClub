@@ -5,11 +5,22 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cool Audio Visualizer</title>
     <link rel="stylesheet" href="styles/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
 </head>
-<body>
+<body class="theme-dark">
     <div class="wrapper">
         <h1>Cool Audio Visualizer</h1>
         <input type="file" id="audioFile" accept="audio/*">
+        <select id="themeSelector">
+            <option value="theme-dark">Dark</option>
+            <option value="theme-light">Light</option>
+            <option value="theme-blue">Blue</option>
+        </select>
+        <select id="visualizerSelector">
+            <option value="bars">Bars</option>
+            <option value="circles">Circles</option>
+            <option value="waves">Waves</option>
+        </select>
         <canvas id="audioCanvas"></canvas>
     </div>
     <script src="scripts/main.js"></script>
