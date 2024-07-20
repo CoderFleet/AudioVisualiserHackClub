@@ -4,26 +4,62 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cool Audio Visualizer</title>
-    <link rel="stylesheet" href="styles/style.css">
     <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            margin: 0;
+            padding: 0;
+            background: #000;
+            color: #fff;
+            text-align: center;
+        }
+        .wrapper {
+            display: inline-block;
+            padding: 20px;
+            border-radius: 10px;
+            background: rgba(0, 0, 0, 0.8);
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+        }
+        h1 {
+            font-family: 'Press Start 2P', cursive;
+            font-size: 2.5em;
+            margin-bottom: 20px;
+        }
+        input[type="file"] {
+            margin: 10px 0;
+        }
+        select, input[type="range"] {
+            margin: 10px;
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            background: #333;
+            color: #fff;
+            font-size: 1em;
+        }
         .controls {
-            display: flex;
-            align-items: center;
-            margin-top: 20px;
+            margin: 20px 0;
         }
         .controls button {
-            margin-right: 10px;
-            font-size: 1.5em;
+            margin: 0 10px;
+            font-size: 2em;
             background: none;
             border: none;
             cursor: pointer;
             color: #fff;
         }
         .controls input[type="range"] {
-            margin-left: 10px;
+            margin: 0 10px;
             width: 150px;
+        }
+        #audioCanvas, #waveformCanvas {
+            border: 1px solid #555;
+            margin-top: 20px;
+        }
+        #waveformCanvas {
+            height: 100px;
         }
     </style>
 </head>
@@ -31,24 +67,33 @@
     <div class="wrapper">
         <h1>Cool Audio Visualizer</h1>
         <input type="file" id="audioFile" accept="audio/*">
-        <select id="themeSelector">
-            <option value="theme-dark">Dark</option>
-            <option value="theme-light">Light</option>
-            <option value="theme-blue">Blue</option>
-        </select>
-        <select id="visualizerSelector">
-            <option value="bars">Bars</option>
-            <option value="circles">Circles</option>
-            <option value="waves">Waves</option>
-        </select>
-        <label for="sensitivitySlider">Sensitivity:</label>
-        <input type="range" id="sensitivitySlider" min="1" max="10" value="5">
+        <div>
+            <label for="themeSelector">Theme:</label>
+            <select id="themeSelector">
+                <option value="theme-dark">Dark</option>
+                <option value="theme-light">Light</option>
+                <option value="theme-blue">Blue</option>
+            </select>
+        </div>
+        <div>
+            <label for="visualizerSelector">Visualizer:</label>
+            <select id="visualizerSelector">
+                <option value="bars">Bars</option>
+                <option value="circles">Circles</option>
+                <option value="waves">Waves</option>
+            </select>
+        </div>
+        <div>
+            <label for="sensitivitySlider">Sensitivity:</label>
+            <input type="range" id="sensitivitySlider" min="1" max="10" value="5">
+        </div>
         <div class="controls">
             <button id="playPauseButton"><i class="fas fa-play"></i></button>
             <label for="volumeSlider">Volume:</label>
             <input type="range" id="volumeSlider" min="0" max="1" step="0.01" value="0.5">
         </div>
         <canvas id="audioCanvas"></canvas>
+        <canvas id="waveformCanvas"></canvas>
     </div>
     <script src="scripts/main.js"></script>
 </body>

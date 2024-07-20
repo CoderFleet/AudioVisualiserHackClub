@@ -1,6 +1,8 @@
 const audioFileInput = document.getElementById('audioFile');
-const canvas = document.getElementById('audioCanvas');
-const canvasContext = canvas.getContext('2d');
+const audioCanvas = document.getElementById('audioCanvas');
+const waveformCanvas = document.getElementById('waveformCanvas');
+const audioCanvasContext = audioCanvas.getContext('2d');
+const waveformCanvasContext = waveformCanvas.getContext('2d');
 const themeSelector = document.getElementById('themeSelector');
 const visualizerSelector = document.getElementById('visualizerSelector');
 const sensitivitySlider = document.getElementById('sensitivitySlider');
@@ -64,6 +66,7 @@ audioFileInput.addEventListener('change', function(event) {
             isPlaying = true;
             playPauseButton.innerHTML = '<i class="fas fa-pause"></i>';
             visualizeAudio(analyser);
+            drawWaveform(buffer);
         });
     };
 
@@ -71,15 +74,21 @@ audioFileInput.addEventListener('change', function(event) {
 });
 
 function visualizeAudio(analyser) {
-    canvas.width = window.innerWidth * 0.8;
-    canvas.height = window.innerHeight * 0.6;
+    audioCanvas.width = window.innerWidth * 0.8;
+    audioCanvas.height = window.innerHeight * 0.6;
     const bufferLength = analyser.frequencyBinCount;
     const dataArray = new Uint8Array(bufferLength);
 
     function draw() {
         requestAnimationFrame(draw);
         analyser.getByteFrequencyData(dataArray);
-        canvasContext.clearRect(0, 0, canvas.width, canvas.height);
+        audioCanvasContext.clearRect(0, 0, audioCanvas.width, audioCanvas.height);
+
+        const gradient = audioCanvasContext.createLinearGradient(0, 0, audioCanvas.width, audioCanvas.height);
+        gradient.addColorStop(0, '#1a1a1a');
+        gradient.addColorStop(1, '#333333');
+        audioCanvasContext.fillStyle = gradient;
+        audioCanvasContext.fillRect(0, 0, audioCanvas.width, audioCanvas.height);
 
         const visualizerType = visualizerSelector.value;
         if (visualizerType === 'bars') {
@@ -95,21 +104,21 @@ function visualizeAudio(analyser) {
 }
 
 function drawBars(dataArray, bufferLength) {
-    const barWidth = (canvas.width / bufferLength) * 2.5;
+    const barWidth = (audioCanvas.width / bufferLength) * 2.5;
     let barHeight;
     let x = 0;
 
     for (let i = 0; i < bufferLength; i++) {
         barHeight = dataArray[i] * sensitivity / 5;
-        canvasContext.fillStyle = `rgb(${barHeight + 100}, 50, 50)`;
-        canvasContext.fillRect(x, canvas.height - barHeight / 2, barWidth, barHeight / 2);
+        audioCanvasContext.fillStyle = `rgb(${barHeight + 100}, 50, 50)`;
+        audioCanvasContext.fillRect(x, audioCanvas.height - barHeight / 2, barWidth, barHeight / 2);
         x += barWidth + 1;
     }
 }
 
 function drawCircles(dataArray, bufferLength) {
-    const centerX = canvas.width / 2;
-    const centerY = canvas.height / 2;
+    const centerX = audioCanvas.width / 2;
+    const centerY = audioCanvas.height / 2;
     const radius = Math.min(centerX, centerY) / 2;
 
     for (let i = 0; i < bufferLength; i++) {
@@ -117,29 +126,59 @@ function drawCircles(dataArray, bufferLength) {
         const barHeight = dataArray[i] * sensitivity / 10;
         const x = centerX + (radius + barHeight) * Math.cos(angle);
         const y = centerY + (radius + barHeight) * Math.sin(angle);
-        canvasContext.beginPath();
-        canvasContext.arc(x, y, 2, 0, 2 * Math.PI);
-        canvasContext.fillStyle = `rgb(${barHeight + 100}, 50, 50)`;
-        canvasContext.fill();
+        audioCanvasContext.beginPath();
+        audioCanvasContext.arc(x, y, 2, 0, 2 * Math.PI);
+        audioCanvasContext.fillStyle = `rgb(${barHeight + 100}, 50, 50)`;
+        audioCanvasContext.fill();
     }
 }
 
 function drawWaves(dataArray, bufferLength) {
-    const sliceWidth = canvas.width / bufferLength;
+    const sliceWidth = audioCanvas.width / bufferLength;
     let x = 0;
 
-    canvasContext.beginPath();
+    audioCanvasContext.beginPath();
     for (let i = 0; i < bufferLength; i++) {
         const v = dataArray[i] / 128.0 * sensitivity / 5;
-        const y = (v * canvas.height) / 2;
+        const y = (v * audioCanvas.height) / 2;
         if (i === 0) {
-            canvasContext.moveTo(x, y);
+            audioCanvasContext.moveTo(x, y);
         } else {
-            canvasContext.lineTo(x, y);
+            audioCanvasContext.lineTo(x, y);
         }
         x += sliceWidth;
     }
-    canvasContext.lineTo(canvas.width, canvas.height / 2);
-    canvasContext.strokeStyle = 'rgb(0, 255, 0)';
-    canvasContext.stroke();
+    audioCanvasContext.lineTo(audioCanvas.width, audioCanvas.height / 2);
+    audioCanvasContext.strokeStyle = '#ff0000';
+    audioCanvasContext.stroke();
+}
+
+function drawWaveform(buffer) {
+    waveformCanvas.width = window.innerWidth * 0.8;
+    const bufferLength = buffer.length;
+    const dataArray = new Float32Array(bufferLength);
+    waveformCanvasContext.clearRect(0, 0, waveformCanvas.width, waveformCanvas.height);
+
+    const sampleRate = audioContext.sampleRate;
+    const duration = buffer.duration;
+    const numberOfSamples = Math.floor(duration * sampleRate);
+    const step = Math.ceil(numberOfSamples / waveformCanvas.width);
+
+    function draw() {
+        requestAnimationFrame(draw);
+        const channelData = buffer.getChannelData(0);
+        waveformCanvasContext.clearRect(0, 0, waveformCanvas.width, waveformCanvas.height);
+        waveformCanvasContext.beginPath();
+        waveformCanvasContext.moveTo(0, waveformCanvas.height / 2);
+        for (let x = 0; x < waveformCanvas.width; x++) {
+            const sampleIndex = x * step;
+            const sampleValue = channelData[sampleIndex] || 0;
+            const y = (1 - sampleValue) * waveformCanvas.height / 2;
+            waveformCanvasContext.lineTo(x, y);
+        }
+        waveformCanvasContext.strokeStyle = '#ff0000';
+        waveformCanvasContext.stroke();
+    }
+
+    draw();
 }

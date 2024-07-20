@@ -1,40 +1,59 @@
 body {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-    margin: 0;
-    background-color: #1e1e1e;
-    color: #ffffff;
     font-family: 'Roboto', sans-serif;
+    margin: 0;
+    padding: 0;
+    background: #000;
+    color: #fff;
+    text-align: center;
+}
+
+.wrapper {
+    display: inline-block;
+    padding: 20px;
+    border-radius: 10px;
+    background: rgba(0, 0, 0, 0.8);
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
 }
 
 h1 {
     font-family: 'Press Start 2P', cursive;
+    font-size: 2.5em;
+    margin-bottom: 20px;
 }
 
-.wrapper {
-    text-align: center;
+input[type="file"] {
+    margin: 10px 0;
 }
 
-canvas {
-    display: block;
-    margin: 20px auto;
-    border: 1px solid #ffffff;
+select, input[type="range"] {
+    margin: 10px;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    background: #333;
+    color: #fff;
+    font-size: 1em;
 }
 
-/* Theme Styles */
-.theme-light {
-    background-color: #ffffff;
-    color: #000000;
+.controls {
+    margin: 20px 0;
 }
 
-.theme-dark {
-    background-color: #1e1e1e;
-    color: #ffffff;
+.controls button {
+    margin: 0 10px;
+    font-size: 2em;
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: #fff;
 }
 
-.theme-blue {
-    background-color: #001f3f;
-    color: #ffffff;
+.controls input[type="range"] {
+    margin: 0 10px;
+    width: 150px;
+}
+
+#audioCanvas {
+    border: 1px solid #555;
+    margin-top: 20px;
 }
